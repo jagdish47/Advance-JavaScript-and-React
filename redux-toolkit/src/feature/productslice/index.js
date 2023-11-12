@@ -53,7 +53,7 @@ const productSlice = createSlice({
       const { payload } = action;
       const { products } = payload;
       state.productList = products;
-      state.isLoading = true;
+      state.isLoading = false;
     },
     [callProductListApi.rejected]: (state) => {
       state.isLoading = false;
