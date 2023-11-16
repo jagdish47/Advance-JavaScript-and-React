@@ -42,5 +42,17 @@
       "name": "Bob Johnson",
       "alterEgo": "Blaze"
     }
+  ],
+  "users": [
+    {
+      "id": "jagdish@gmail.com",
+      "channelId": "codevolution"
+    }
+  ],
+  "channels": [
+    {
+      "id": "codevolution",
+      "courses": ["react", "vue", "angular"]
+    }
   ]
 }
