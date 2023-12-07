@@ -4,7 +4,10 @@ import "./App.css";
 // import HookCounterTwo from "./components/HookCounterTwo";
 // import CustomUseState from "./components/customUseState";
 // import HookCounter from "./components/useEffect/HookCounter";
-import HookMouse from "./components/useEffect/HookMouse";
+// import HookMouse from "./components/useEffect/HookMouse";
+
+import CounterOne from "./components/useReducer/CounterOne";
+import CounterTwo from "./components/useReducer/CounterTwo";
 
 function App() {
   return (
@@ -17,7 +20,10 @@ function App() {
 
       {/* --------useEffect---------- */}
       {/* <HookCounter /> */}
-      <HookMouse />
+      {/* <HookMouse /> */}
+
+      <CounterOne />
+      <CounterTwo />
     </div>
   );
 }
