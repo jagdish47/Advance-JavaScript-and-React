@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100vw;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.card {
+  border: 1px solid black;
+  width: 200px;
+  height: 200px;
+}
+
+.card img {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+}
