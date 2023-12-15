@@ -1,4 +1,4 @@
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, FieldErrors } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
 type FormValues = {
@@ -30,8 +30,18 @@ const YoutubeForm = () => {
       dob: new Date(),
     },
   });
-  const { register, control, handleSubmit, formState } = form;
-  const { errors } = formState;
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState,
+    watch,
+    getValues,
+    setValue,
+  } = form;
+  const { errors, touchedFields, dirtyFields, isDirty, isValid } = formState;
+
+  console.log({ touchedFields, dirtyFields, isDirty });
 
   const { fields, append, remove } = useFieldArray({
     name: "phNumbers",
@@ -42,9 +52,30 @@ const YoutubeForm = () => {
     console.log("Data : ", data);
   };
 
+  const onError = (error: FieldErrors<FormValues>) => {
+    console.log(error);
+  };
+
+  // const watchUsername = watch(["username", "email"]);
+  // const watchIt = watch();
+
+  const handleGetValues = () => {
+    console.log("get Values", getValues("social"));
+  };
+
+  const handleSetValues = () => {
+    setValue("username", "", {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <h5>Youtube Form </h5>
+      {/* <h2>Watched value : {JSON.stringify(watchIt)}</h2> */}
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
         <label>Username</label>
         <input
           type="text"
@@ -60,6 +91,7 @@ const YoutubeForm = () => {
           id="email"
           placeholder="email"
           {...register("email", {
+            disabled: true, //value will be undefine and validation disable
             pattern: {
               value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
               message: "Invalid email format",
@@ -167,7 +199,9 @@ const YoutubeForm = () => {
           </div>
         </div>
 
-        <button>Submit</button>
+        <button disabled={!isDirty || !isValid}>Submit</button>
+        <button onClick={() => handleGetValues()}>getValues</button>
+        <button onClick={() => handleSetValues()}>setValues</button>
       </form>
       <DevTool control={control} />
     </div>
