@@ -1,26 +1,25 @@
+import React, { useState } from "react";
 import { useFetchData } from "./customHooks/useFetchData";
 import "./App.css";
-import { useState } from "react";
 
 function App() {
   const { data, loading } = useFetchData();
   const [page, setPage] = useState(1);
 
-  // console.log("Data : ", data);
-  // console.log("Loading : ", loading);
-  // console.log("Error : ", error);
-
   if (loading) {
     return <div>Loading</div>;
   }
-  console.log(data);
+
+  const productsPerPage = 10;
+  const startIdx = (page - 1) * productsPerPage;
+  const endIdx = page * productsPerPage;
 
   return (
     <>
       <div className="container">
-        {data.products.slice(page * 10 - 10, page * 10).map((product) => (
+        {data.products.slice(startIdx, endIdx).map((product) => (
           <div className="card" key={product.id}>
-            <img src={product.thumbnail} />
+            <img src={product.thumbnail} alt={product.title} />
             <p>{product.title}</p>
             <p>{product.price}</p>
           </div>
@@ -28,13 +27,34 @@ function App() {
       </div>
 
       <div style={{ display: "flex" }}>
-        <span onClick={() => setPage(page - 1)}>⏮️</span>
-        <h1>
-          {[...Array(data.products.length / 10)].map((_, i) => (
-            <h1 onClick={() => setPage(i + 1)}>{i + 1}</h1>
-          ))}
-        </h1>
-        <span onClick={() => setPage(page + 1)}>⏭️</span>
+        <span
+          className={page === 1 ? "disabled" : ""}
+          onClick={() => setPage((prevPage) => Math.max(prevPage - 1, 1))}
+        >
+          ⏮️
+        </span>
+        <div>
+          {[...Array(Math.ceil(data.products.length / productsPerPage))].map(
+            (_, i) => (
+              <span
+                key={i}
+                onClick={() => setPage(i + 1)}
+                className={page === i + 1 ? "active" : ""}
+              >
+                {i + 1}
+              </span>
+            )
+          )}
+        </div>
+        <span
+          className={page === 2 ? "disabled" : ""}
+          onClick={() => {
+            console.log("Clicked on Next Page");
+            setPage((prevPage) => prevPage + 1);
+          }}
+        >
+          ⏭️
+        </span>
       </div>
     </>
   );
